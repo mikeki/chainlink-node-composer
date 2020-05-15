@@ -19,7 +19,8 @@ services:
     links:
       - "postgres"
     volumes:
-      - .:/host
+      - "./chainlink:/chainlink"
+    command: "local n -p /chainlink/.password -a /chainlink/.api"
 
 volumes:
   pg:
