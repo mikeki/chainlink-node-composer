@@ -1,50 +1,25 @@
-version: "2"
+version: "3.4"
 
 services:
-  postgres-slave:
-    image: "nebirhos/postgres-replication"
+  postgres:
+    image: "postgres"
     ports:
-      - 5433:5432
-    links:
-      - postgres-master
-    env_file:
-      - ./postgres.env
-      - ./postgres-slave.env
-    volumes:
-      - 'pg-slave:/var/lib/postgresql/data'
-
-  postgres-master:
-    image: "nebirhos/postgres-replication"
-    ports:
-      - 5432:5432
+      - "5432:5432"
     env_file:
       - ./postgres.env
     volumes:
-      - 'pg:/var/lib/postgresql/data'
-            
-  ethereum:
-    image: ethereum/client-go:v1.7.2
-    env_file:
-      - ./geth.env
-    restart: always
-    expose:
-      - "8545"
-    command: --rpc --rpcaddr 0.0.0.0 --syncmode "light"
+      - "pg:/var/lib/postgresql/data"
 
   chainlink:
-    build: "chainlink/"
+    image: "smartcontract/chainlink"
     env_file:
       - ./chainlink.env
-    restart: always
     ports: 
       - "5100:5100"
     links:
-      - "ethereum"
-      - "postgres-master"
-      - "postgres-slave"
+      - "postgres"
     volumes:
       - .:/host
 
 volumes:
-  pg: ./master
-  pg-slave: ./slave
+  pg:

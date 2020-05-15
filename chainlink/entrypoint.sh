@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Has this node been initialised?
-FILE=/initialise.out
+# Has this node been initialized?
+FILE=/initialize.out
 if [ ! -f $FILE ]; then
     # Confirm to create coordinator keys
     bundle exec
