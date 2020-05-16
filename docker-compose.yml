@@ -6,16 +6,18 @@ services:
     ports:
       - "5432:5432"
     env_file:
-      - ./postgres.env
+      - ./.env
     volumes:
       - "pg:/var/lib/postgresql/data"
 
   chainlink:
     image: "smartcontract/chainlink"
     env_file:
-      - ./chainlink.env
+      - ./.env
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?sslmode=disable
     ports: 
-      - "5100:5100"
+      - "6688:6688"
     links:
       - "postgres"
     volumes:
