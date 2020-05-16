@@ -3,6 +3,7 @@ version: "3.4"
 services:
   postgres:
     image: "postgres"
+    restart: always
     ports:
       - "5432:5432"
     env_file:
@@ -12,6 +13,7 @@ services:
 
   chainlink:
     image: "smartcontract/chainlink"
+    restart: always
     env_file:
       - ./.env
     environment:
